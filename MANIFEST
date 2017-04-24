@@ -6,4 +6,5 @@ arrogant/admin.py
 arrogant/apps.py
 arrogant/models.py
 arrogant/tests.py
+arrogant/urls.py
 arrogant/views.py
