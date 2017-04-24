@@ -15,7 +15,7 @@ class Job(models.Model):
 	avatar = models.ImageField(default='politician.png') # 大頭貼照片
 	職務類別 = models.CharField(max_length=20, null=True)
 	學歷限制 = models.CharField(max_length=20, null=True)
-	job = models.CharField(max_length=20)
+	job = models.CharField(max_length=35)
 	聯絡人員 = models.CharField(max_length=20, null=True)
 	需求人數 = models.CharField(max_length=20, null=True)
 	工作經驗 = models.CharField(max_length=20, null=True)
@@ -23,7 +23,7 @@ class Job(models.Model):
 	薪資 = models.CharField(max_length=20, null=True)
 	地區 = models.CharField(max_length=20, null=True)
 	科系限制 = models.CharField(max_length=20, null=True)
-	工作時間 = models.CharField(max_length=20, null=True)
+	工作時間 = models.CharField(max_length=35, null=True)
 	休假制度 = models.CharField(max_length=20, null=True)
 	工作地點 = models.CharField(max_length=20, null=True)
 	實習時段 = models.CharField(max_length=20, null=True)
@@ -31,8 +31,9 @@ class Job(models.Model):
 	工作性質 = models.CharField(max_length=20, null=True)
 	company = models.ForeignKey(Company)
 	url = models.CharField(max_length=100)
-	工作說明 = models.CharField(max_length=20, null=True)
+	工作說明 = models.CharField(max_length=100, null=True)
 	身份類別 = models.CharField(max_length=20, null=True)
+	fromWitchWeb = models.CharField(max_length=10, default='1111')
 	def __str__(self):
 		return self.job
 
