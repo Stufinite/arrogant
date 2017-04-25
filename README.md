@@ -52,7 +52,7 @@ Usage of API (pattern written below is URL pattern)：
 
   1. _`get/jvalue`_：
 
-    需要指定
+    需要指定：  
     - 職缺id  
     - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=754](http://127.0.0.1:8000/arrogant/get/jvalue?id=754)
 
@@ -86,10 +86,10 @@ Usage of API (pattern written below is URL pattern)：
 
   2. _`get/recommendJvalue`_：取得推荐的實習或求職執缺
 
-    需要指定：
+    需要指定：  
     - school
     - dept
-    - degree  
+    - degree
     - expample： [http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3](http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3)
 
       ```
@@ -164,7 +164,7 @@ Usage of API (pattern written below is URL pattern)：
 
   4. _`get/comment`_：取得該實習的使用者留言
 
-    需要指定：
+    需要指定：  
     - id
     - start  
     - expample： [http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1](http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1)
