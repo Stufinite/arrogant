@@ -8,9 +8,20 @@ from django.core import serializers
 import json, datetime
 
 @queryString_required(['school', 'dept', 'degree'])
-def jvalue(request):
+def recommendJvalue(request):
     try:
         j = Job.objects.all()[0]
+        result = model_to_dict(j)
+        result['avatar'] = result['avatar'].url if result['avatar'] else None
+        result['company'] = j.company.company
+        return JsonResponse(result, safe=False)
+    except Exception as e:
+        raise e
+
+@queryString_required(['id'])
+def jvalue(request):
+    try:
+        j = Job.objects.get(id=request.GET['id'])
         result = model_to_dict(j)
         result['avatar'] = result['avatar'].url if result['avatar'] else None
         result['company'] = j.company.company

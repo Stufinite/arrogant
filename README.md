@@ -1,15 +1,10 @@
-# GluttonyTw（暴食）
+# Arrogant（傲慢）
 
-今天吃什麼的api
+求職資訊的api
 
-_`gluttony`_ 是天主教中七原罪的暴食之罪<br>
-因為貼切反應學生使用此功能的動機<br>
-所以以此命名。無奈gluttony在pypi上已經被註冊過了，所以後面加上Tw
-
-_`gluttonyTw`_ 提供兩類api
-
-1. 顧客類：可以用來定餐、查詢過往定餐紀錄等等。
-2. 餐廳類：可以查店家資訊、菜色以及收到的訂單。
+_`arrogant`_ 是天主教中七原罪的傲慢之罪<br>
+因為系統會幫學生累計他們的實習紀錄等等，當成`胸前的勳章`<br>
+期望大家在累積的過程中要小心不要傲慢(好像有點牽強XD)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -42,267 +37,168 @@ api domain：目前還沒架起來，所以暫定`127.0.0.1`<br>
 
 ### parameter
 
-- `res_id`：餐廳的id
-- `order_id`：訂單的id，用在揪團訂購的時候，需要指定你要參加的是哪一筆揪團訂單
-- `date`：時間參數
+- `school`：餐廳的id
+- `dept`：系所。
+- `degree`：年級。
+- `location`：所在的縣市名稱。
+- `start`：如果回傳型態是陣列的話，需要指定回傳陣列的哪個部份（python的slice）。例如回傳使用者的評論時，若指定start=1，則會回傳array[0:15]共15個。
+- `id`：該職缺物件的ID
 
 ### usage and Results
 
 API使用方式（下面所寫的是api的URL pattern）<br>
 Usage of API (pattern written below is URL pattern)：
 
-- 餐廳類別：<br>
-  可以查店家資訊、菜色以及收到的訂單。
 
-  1. _`api/restaurant/`_：取得餐廳的訂單資料，需要指定餐廳id
+  1. _`get/jvalue`_：
 
-    - 加上`date`參數可以指定某日期的訂單： `http://127.0.0.1:8000/t2e/api/restaurant/?res_id=1&date=2017-2-1`
-
-      ```
-      {
-      "Score": 3,
-      "Type": [
-      "中式"
-      ],
-      "ResName": "鼎日",
-      "OrderList": [
-      {
-      "total": 300,
-      "OrderId": 1,
-      "ResOrder": {
-      "今日特餐": 6
-      },
-      "Create": "2017-02-01T13:26:57.447Z"
-      }
-      ],
-      "Date": "2017-02-01",
-      "ResAddress": "台中市南區興大路"
-      }
-      ```
-
-    - 不加date預設是顯示當天的訂單： `http://127.0.0.1:8000/t2e/api/restaurant/?res_id=1`
+    需要指定
+    - 職缺id  
+    - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=754](http://127.0.0.1:8000/arrogant/get/jvalue?id=754)
 
       ```
       {
-      "Score": 3,
-      "Type": [
-      "中式"
-      ],
-      "ResName": "鼎日",
-      "OrderList": [],
-      "Date": "2017-02-02",
-      "ResAddress": "台中市南區興大路"
+        "avatar": "/media/maid_BwdsckP.png",
+        "company": "雲雀國際股份有限公司",
+        "fromWitchWeb": "1111",
+        "id": 754,
+        "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
+        "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
+        "休假制度": "排休, 輪休",
+        "到職日期": "不限",
+        "地區": "台南市東區",
+        "學歷限制": "不拘",
+        "實習時段": "暑期實習、學期實習、學年實習",
+        "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
+        "工作性質": "兼職、企業實習",
+        "工作時間": "日班, 中班, 晚班, 假日班, 輪",
+        "工作經驗": "不拘",
+        "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
+        "科系限制": "不拘",
+        "聯絡人員": "林店長",
+        "職務類別": "餐飲服務人員、餐廚助手",
+        "職缺更新": "2017/4/19",
+        "薪資": "時薪 133至150",
+        "身份類別": "一般求職者／日間就學中",
+        "需求人數": "不限"
       }
       ```
 
-  2. _`api/restaurant/prof/`_：取得餐廳的介紹，並且回傳照片的網址
+  2. _`get/recommendJvalue`_：取得推荐的實習或求職執缺
 
-    - 需要指定res_id（餐廳在資料庫的id）： `http://127.0.0.1:8000/t2e/api/restaurant/prof/?res_id=1`
+    需要指定：
+    - school
+    - dept
+    - degree  
+    - expample： [http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3](http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3)
 
       ```
       {
-      "last_reserv": "20:00",
-      "feature": "http://127.0.0.1:8000/media/%E6%96%99%E7%90%86%E7%89%B9%E8%89%B2.jpg",
-      "environment": "http://127.0.0.1:8000/media/%E7%94%A8%E9%A4%90%E7%92%B0%E5%A2%83.jpg",
-      "ResName": "鼎日",
-      "envText": "以新鮮食材佐特製湯頭，搭配風格設計空間，讓聚餐除了享受美食，也能提升時尚品味！",
-      "ResFavorDish": [],
-      "ResLike": 50,
-      "phone": [
-      "0972800000"
-      ],
-      "featureText": "均勻分布的油花與鮮紅肉質，讓口感更加紮實不凡，肉獨有的香氣與油花潤飾，放進精心熬煮清甜的湯汁中輕涮，令人流連忘返的香滑柔嫩口感，讓你感動不已！",
-      "date": [],
-      "country": "台中市",
-      "address": "台中市南區興大路",
-      "avatar": "http://127.0.0.1:8000/media/%E9%8D%8B%E8%A3%A1%E9%8D%8B%E7%89%A9.jpg",
-      "score": 3
+        "avatar": "/media/maid_BwdsckP.png",
+        "company": "雲雀國際股份有限公司",
+        "fromWitchWeb": "1111",
+        "id": 754,
+        "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
+        "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
+        "休假制度": "排休, 輪休",
+        "到職日期": "不限",
+        "地區": "台南市東區",
+        "學歷限制": "不拘",
+        "實習時段": "暑期實習、學期實習、學年實習",
+        "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
+        "工作性質": "兼職、企業實習",
+        "工作時間": "日班, 中班, 晚班, 假日班, 輪",
+        "工作經驗": "不拘",
+        "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
+        "科系限制": "不拘",
+        "聯絡人員": "林店長",
+        "職務類別": "餐飲服務人員、餐廚助手",
+        "職缺更新": "2017/4/19",
+        "薪資": "時薪 133至150",
+        "身份類別": "一般求職者／日間就學中",
+        "需求人數": "不限"
       }
       ```
 
-  3. _`api/restaurant/list/`_：取得包含所有餐廳的陣列
+  3. _`get/jlist`_：取得實習列表
 
-    - `start`：從第幾筆餐廳資料開始
-    - `gap`(optional)：一次取幾筆，預設值是15筆
-    - 範例： `http://127.0.0.1:8000/t2e/api/restaurant/list?start=1`
+    - location
+    - start
+    - 範例： [http://127.0.0.1:8000/arrogant/get/jlist?location=台中市南區&start=1](http://127.0.0.1:8000/arrogant/get/jlist?location=台中市南區&start=1)
 
       ```
       [
-      {
-      "avatar": "http://127.0.0.1:8000/media/%E9%8D%8B%E8%A3%A1%E9%8D%8B%E7%89%A9.jpg",
-      "score": 3,
-      "ResName": "鼎日",
-      "ResLike": 50
-      }
+        {
+          "fields": {
+            "avatar": "politician.png",
+            "company": 1014,
+            "fromWitchWeb": "1111",
+            "job": "【探魚】Intern實習生 (台中南區)早班/晚班/假日/工讀/兼職Part Time",
+            "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79889630&agent=internships",
+            "休假制度": "排休",
+            "到職日期": "不限",
+            "地區": "台中市南區",
+            "學歷限制": "不拘",
+            "實習時段": "暑期實習、學期實習、學年實習",
+            "工作地點": "台中市南區",
+            "工作性質": "兼職、企業實習",
+            "工作時間": "日班, 中班, 晚班, 假日班",
+            "工作經驗": "不拘",
+            "工作說明": "「最有文藝氣息的烤魚店」新店籌備中，熱烈歡迎熱愛美食，喜歡與人互動、正向思考，對品牌經營管理有熱情、有使命感的夥伴加入我們的團隊，與我們一起提供客戶美好的用餐體驗，成就你的夢想，為自己的職涯加分! ! 1.內場區餐點備製、食材/物料及存貨管理等。 2.外場區現場顧客服務(包括顧客接待/帶位、收銀、點餐/供餐、桌邊服務、收盤清理等)、客區清潔與維護。 3.櫃檯區POS點餐操作、營運現金控管、客戶資料庫管理、行銷實務操作等。",
+            "科系限制": "不拘",
+            "聯絡人員": "營運主管",
+            "職務類別": "餐廚助手、餐飲服務人員、其它料理廚師",
+            "職缺更新": "2017/4/23",
+            "薪資": "面議",
+            "身份類別": "日間就學中／夜間就學中",
+            "需求人數": "不限"
+          },
+          "model": "arrogant.job",
+          "pk": 795
+        }
+        ...
+        ...
+        ...
       ]
       ```
 
-  4. _`api/restaurant/menu/`_：取得餐廳的菜單與照片
+  4. _`get/comment`_：取得該實習的使用者留言
 
-    - 需要指定res_id（餐廳在資料庫的id）： `http://127.0.0.1:8000/t2e/api/restaurant/menu/?res_id=1`
-
-      ```
-      {
-      "dish": [
-      {
-      "price": 50,
-      "image": "http://127.0.0.1:8000/media/%E6%8E%92%E9%AA%A8%E9%A3%AF.jpg",
-      "isSpicy": true,
-      "name": "今日特餐"
-      }
-      ],
-      "menu": [
-      "http://127.0.0.1:8000/media/%E8%8F%9C%E5%96%AE_FtgeMqS.jpg"
-      ]
-      }
-      ```
-
-  4. _`api/restaurant/boss/`_：讓老闆可以看到他們該月份的營業額
-
-    - 需要指定res_id（餐廳在資料庫的id）： `http://127.0.0.1:8000/t2e/api/restaurant/boss/?res_id=1`
-
-      ```
-      {
-        "chart": {
-          "2017-04-01": 50,
-          "2017-04-02": 80,
-          ...
-          "2017-04-30": 120
-        },
-        "sells": {
-          "今日特餐": {
-            "price": 50000,
-            "amout": 1000
-          }
-        },
-        "revenue": 70000
-      }
-      ```
-
-- 顧客類別：<br>
-  可以用來定餐、查詢過往定餐紀錄等等。
-
-  1. _`api/order/user/`_：取得顧客的訂單資料
-
-    - 加上`date`參數可以指定某日期的訂單： `http://127.0.0.1:8000/t2e/api/order/user/?date=2017-02-01`
-
-      ```
-      {
-      "Order": [
-      {
-        "create": "2017-02-01T14:36:13.239Z",
-        "total": 100,
-        "meal": [
-          {
-            "name": "今日特餐",
-            "amount": "2"
-          }
-        ]
-      }
-      ],
-      "User": "root",
-      "FDish": null,
-      "Date": "2017-02-01",
-      "Ftype": null
-      }
-      ```
-
-    - 不加date預設是顯示當天的訂單： `http://127.0.0.1:8000/t2e/api/order/user/`
-
-      ```
-      {
-      "Order": [],
-      "User": "root",
-      "FDish": null,
-      "Date": "2017-02-02",
-      "Ftype": null
-      }
-      ```
-
-  2. _`api/order/join`_：發起揪團訂單或是參加揪團訂購
-    - 程式實作：呼叫此api要用post  
-    以下用python示範：
-    ```
-    >>> import requests  
-    >>> payload={'今日特餐':2, 'period':'午餐'}
-    >>> # 建立訂單 requests.post('http://127.0.0.1:8000/t2e/api/order/join?res_id=1', data=payload)
-    >>> # 參與揪團 requests.post('http://127.0.0.1:8000/t2e/api/order/join?order_id=10', data=payload)
-    ```
-
-    - 發起人需要指定res_id（餐廳在資料庫的id）： `http://127.0.0.1:8000/t2e/api/order/join/?res_id=1`
-
-      ```
-      {"purchase": "success"}
-      ```
-
-    - 參與揪團的人要指定orderID （訂單在資料庫的id）： `http://127.0.0.1:8000/t2e/api/order/join/?order_id=6`
-
-      ```
-      {"purchase": "success"}
-      ```
-
-  3. *`api/order/join_order_list/`*：取得包含所有揪團訂單的陣列  
-
-    - 需要指定res_id（餐廳在資料庫的id）： `http://127.0.0.1:8000/t2e/api/order/join_order_list/?res_id=1`
+    需要指定：
+    - id
+    - start  
+    - expample： [http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1](http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1)
 
       ```
       [
-  {
-    "createUser": "root",
-    "period": "午餐",
-    "restaurant": "鼎日",
-    "order_id": 1
-  },
-  {
-    "createUser": "root",
-    "period": "午餐",
-    "restaurant": "鼎日",
-    "order_id": 2
-  },
-]
-      ```
-- 留言版：<br>
-  回傳該間餐廳的留言評價  
-  1. *`/api/restaurant/comment/`*：顯示該間餐廳的留言 or 留言給餐廳
-    * `res_id`：餐廳ID
-      * 顯示該間餐廳的留言：
-        * （optional）`start`：從第幾筆餐廳留言開始取，留言有按讚數量（like），Descending排列，每次提供 start ~ start + 15 的範圍
-      * 留言給餐廳：
-        * （optional）post所接受的欄位如下：
-          ```
-          class Comment(models.Model):
-              restaurant = models.ForeignKey(ResProf)
-              author = models.ForeignKey(EatUser)
-              feeling = models.CharField(max_length=200, null=True)
-              like = models.PositiveSmallIntegerField(default=1)
-          ```
-    * Get範例：`http://127.0.0.1:8000/t2e/api/restaurant/comment/?res_id=1&start=1`  
-    ```
-    [
-  {
-    "fields": {
-      "author": 1,
-      "feeling": "還行拉 蠻有特色的店",
-      "like": 20
-    },
-    "model": "gluttonyTw.comment",
-    "pk": 3
-  },
-  {
-    "fields": {
-      "author": 1,
-      "feeling": "氣氛佳 不過稍貴就是了",
-      "like": 10
-    },
-    "model": "gluttonyTw.comment",
-    "pk": 2
-  },
-]
-    ```
-    * Post範例：
-      ```
-      等松鬆綁上去測測看 因為使用者帳號的Request一定要從網頁發出去我才知道他的帳號
-      我現在覽的綁到網頁上所以你幫我測一下XD
+        {
+          "fields": {
+            "Job": 754,
+            "create": "2017-04-24T11:54:42Z",
+            "raw": "測試測試"
+          },
+          "model": "arrogant.comment",
+          "pk": 1
+        },
+        {
+          "fields": {
+            "Job": 754,
+            "create": "2017-04-24T14:13:08.788Z",
+            "raw": "這是測試"
+          },
+          "model": "arrogant.comment",
+          "pk": 2
+        },
+        {
+          "fields": {
+            "Job": 754,
+            "create": "2017-04-24T14:19:11.154Z",
+            "raw": "測試第三次XD"
+          },
+          "model": "arrogant.comment",
+          "pk": 3
+        }
+      ]
       ```
 
 ## Getting Started
@@ -319,13 +215,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Installing
 
-1. `pip install gluttonyTw`
+1. `pip install arrogant`
 
 ## Running & Testing
 
 ## Run
 
-1. `settings.py`裏面需要新增`gluttonyTw`這個app：
+1. `settings.py`裏面需要新增`arrogant`這個app：
 
   - add this:
 
@@ -334,22 +230,22 @@ These instructions will get you a copy of the project up and running on your loc
     ...
     ...
     ...
-    'gluttonyTw',
+    'arrogant',
     ]
     ```
 
-2. `urls.py`需要新增下列代碼 把所有search開頭的request都導向到`gluttonyTw`這個app：
+2. `urls.py`需要新增下列代碼 把所有search開頭的request都導向到`arrogant`這個app：
 
   - add this:
 
     ```
-    import gluttonyTw.urls
+    import arrogant.urls
     urlpatterns += [
-        url(r'^t2e/',include(gluttonyTw.urls,namespace="gluttonyTw") ),
+        url(r'^arrogant/',include(arrogant.urls, namespace="arrogant") ),
     ]
     ```
 
-3. `python manage.py runserver`：即可進入頁面測試 `gluttonyTw` 是否安裝成功。
+3. `python manage.py runserver`：即可進入頁面測試 `arrogant` 是否安裝成功。
 
 ### Break down into end to end tests
 
@@ -361,13 +257,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Deployment
 
-`curso` is a django-app, so depends on django project.
-
-`暴食` 是一般的django插件，所以必須依存於django專案
+`arrogant` is a django-app, so depends on django project.
 
 ## Built With
 
-- djangoApiDec==1.2,
+- djangoApiDec,
 
 ## Contributors
 
