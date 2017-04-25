@@ -53,8 +53,9 @@ Usage of API (pattern written below is URL pattern)：
   1. _`get/jvalue`_：
 
     需要指定：  
-    - 職缺id  
+    - 職缺id
     - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=754](http://127.0.0.1:8000/arrogant/get/jvalue?id=754)
+
 
       ```
       {
@@ -86,39 +87,41 @@ Usage of API (pattern written below is URL pattern)：
 
   2. _`get/recommendJvalue`_：取得推荐的實習或求職執缺
 
-    需要指定：  
+    需要指定：
+
     - school
     - dept
     - degree
     - expample： [http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3](http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3)
 
-      ```
-      {
-        "avatar": "/media/maid_BwdsckP.png",
-        "company": "雲雀國際股份有限公司",
-        "fromWitchWeb": "1111",
-        "id": 754,
-        "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
-        "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
-        "休假制度": "排休, 輪休",
-        "到職日期": "不限",
-        "地區": "台南市東區",
-        "學歷限制": "不拘",
-        "實習時段": "暑期實習、學期實習、學年實習",
-        "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
-        "工作性質": "兼職、企業實習",
-        "工作時間": "日班, 中班, 晚班, 假日班, 輪",
-        "工作經驗": "不拘",
-        "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
-        "科系限制": "不拘",
-        "聯絡人員": "林店長",
-        "職務類別": "餐飲服務人員、餐廚助手",
-        "職缺更新": "2017/4/19",
-        "薪資": "時薪 133至150",
-        "身份類別": "一般求職者／日間就學中",
-        "需求人數": "不限"
-      }
-      ```
+
+    ```
+    {
+      "avatar": "/media/maid_BwdsckP.png",
+      "company": "雲雀國際股份有限公司",
+      "fromWitchWeb": "1111",
+      "id": 754,
+      "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
+      "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
+      "休假制度": "排休, 輪休",
+      "到職日期": "不限",
+      "地區": "台南市東區",
+      "學歷限制": "不拘",
+      "實習時段": "暑期實習、學期實習、學年實習",
+      "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
+      "工作性質": "兼職、企業實習",
+      "工作時間": "日班, 中班, 晚班, 假日班, 輪",
+      "工作經驗": "不拘",
+      "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
+      "科系限制": "不拘",
+      "聯絡人員": "林店長",
+      "職務類別": "餐飲服務人員、餐廚助手",
+      "職缺更新": "2017/4/19",
+      "薪資": "時薪 133至150",
+      "身份類別": "一般求職者／日間就學中",
+      "需求人數": "不限"
+    }
+    ```
 
   3. _`get/jlist`_：取得實習列表
 
@@ -164,42 +167,43 @@ Usage of API (pattern written below is URL pattern)：
 
   4. _`get/comment`_：取得該實習的使用者留言
 
-    需要指定：  
+    需要指定：
+
     - id
     - start  
     - expample： [http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1](http://127.0.0.1:8000/arrogant/get/comment?id=754&start=1)
 
-    ```
-    [
-      {
-        "fields": {
-          "Job": 754,
-          "create": "2017-04-24T11:54:42Z",
-          "raw": "測試測試"
-        },
-        "model": "arrogant.comment",
-        "pk": 1
+  ```
+  [
+    {
+      "fields": {
+        "Job": 754,
+        "create": "2017-04-24T11:54:42Z",
+        "raw": "測試測試"
       },
-      {
-        "fields": {
-          "Job": 754,
-          "create": "2017-04-24T14:13:08.788Z",
-          "raw": "這是測試"
-        },
-        "model": "arrogant.comment",
-        "pk": 2
+      "model": "arrogant.comment",
+      "pk": 1
+    },
+    {
+      "fields": {
+        "Job": 754,
+        "create": "2017-04-24T14:13:08.788Z",
+        "raw": "這是測試"
       },
-      {
-        "fields": {
-          "Job": 754,
-          "create": "2017-04-24T14:19:11.154Z",
-          "raw": "測試第三次XD"
-        },
-        "model": "arrogant.comment",
-        "pk": 3
-      }
-    ]
-    ```
+      "model": "arrogant.comment",
+      "pk": 2
+    },
+    {
+      "fields": {
+        "Job": 754,
+        "create": "2017-04-24T14:19:11.154Z",
+        "raw": "測試第三次XD"
+      },
+      "model": "arrogant.comment",
+      "pk": 3
+    }
+  ]
+  ```
 
 ## Getting Started
 
