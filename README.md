@@ -55,6 +55,7 @@ Usage of API (pattern written below is URL pattern)：
   - 職缺id
   - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=754](http://127.0.0.1:8000/arrogant/get/jvalue?id=754)
 
+    ```
     {
       "avatar": "/media/maid_BwdsckP.png",
       "company": "雲雀國際股份有限公司",
@@ -80,7 +81,8 @@ Usage of API (pattern written below is URL pattern)：
       "身份類別": "一般求職者／日間就學中",
       "需求人數": "不限"
     }
-
+    ```
+    
 2. _`get/recommendJvalue`_：取得推荐的實習或求職執缺
 
   - school
