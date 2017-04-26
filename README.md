@@ -1,10 +1,11 @@
 # Arrogant（傲慢）
 
+![剛之煉金術師的怠惰](http://att.bbs.duowan.com/forum/201311/04/194746kxk1y8j331lqji8i.jpg)
 求職資訊的api
-
 _`arrogant`_ 是天主教中七原罪的傲慢之罪<br>
 因為系統會幫學生累計他們的實習紀錄等等，當成`胸前的勳章`<br>
 期望大家在累積的過程中要小心不要傲慢(好像有點牽強XD)
+
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
