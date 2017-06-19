@@ -1,46 +1,72 @@
 from django.db import models
-import datetime
-# 要取得會員的model要這樣寫
-from userper import Userper
-User = Userper('login.stufinite.faith')
+from django.utils import timezone
+from infernoWeb.models import User
 
 # Create your models here.
 class Company(models.Model):
-	company = models.CharField(max_length=20)
+	brand = models.CharField(max_length=30)
+	banner = models.CharField(max_length=200) # 大頭貼照片
+	path = models.CharField(max_length=40)
+	area = models.CharField(max_length=10)
+	公司規模 = models.CharField(max_length=5)
+	地址 = models.CharField(max_length=40)
+	資本額 = models.CharField(max_length=10)
+	description = models.CharField(max_length=150)
 	def __str__(self):
-		return self.company
+		return self.brand
 
 class Job(models.Model):
 	"""docstring for Job"""
-	avatar = models.ImageField(default='politician.png') # 大頭貼照片
-	職務類別 = models.CharField(max_length=20, null=True)
-	學歷限制 = models.CharField(max_length=20, null=True)
-	job = models.CharField(max_length=35)
-	聯絡人員 = models.CharField(max_length=20, null=True)
-	需求人數 = models.CharField(max_length=20, null=True)
-	工作經驗 = models.CharField(max_length=20, null=True)
-	到職日期 = models.CharField(max_length=20, null=True)
-	薪資 = models.CharField(max_length=20, null=True)
-	地區 = models.CharField(max_length=20, null=True)
-	科系限制 = models.CharField(max_length=20, null=True)
-	工作時間 = models.CharField(max_length=35, null=True)
-	休假制度 = models.CharField(max_length=20, null=True)
-	工作地點 = models.CharField(max_length=20, null=True)
-	實習時段 = models.CharField(max_length=20, null=True)
-	職缺更新 = models.CharField(max_length=20, null=True)
-	工作性質 = models.CharField(max_length=20, null=True)
 	company = models.ForeignKey(Company)
-	url = models.CharField(max_length=100)
-	工作說明 = models.CharField(max_length=100, null=True)
-	身份類別 = models.CharField(max_length=20, null=True)
-	fromWitchWeb = models.CharField(max_length=10, default='1111')
+	name = models.CharField(max_length=20)
+	intern_tf = models.BooleanField(default=False)
+	has_salary_info = models.BooleanField(default=False)
+	salary = models.CharField(max_length=30)
+	path = models.CharField(max_length=40)
+	avatar = models.CharField(max_length=200) # 大頭貼照片
 	def __str__(self):
-		return self.job
+		return self.name
+
+class JobTag(models.Model):
+	name = models.CharField(max_length=15)
+	Job = models.ManyToManyField(Job)
+	def __str__(self):
+		return self.name
+
+
+class Category(models.Model):
+	name = models.CharField(max_length=15)
+	Job = models.ManyToManyField(Job)
+	def __str__(self):
+		return self.name
+
+
+class SkillTag(models.Model):
+	name = models.CharField(max_length=15)
+	skill_field = models.CharField(max_length=10)
+	Job = models.ManyToManyField(Job)
+	def __str__(self):
+		return self.name + '-' + '-' + self.skill_field
+
+
 
 class Comment(models.Model):
 	Job = models.ForeignKey(Job)
-	author = User
-	create = models.DateTimeField(default=datetime.datetime.now)
+	author = models.ForeignKey(User, related_name='cmtauthor')
+	create = models.DateTimeField(default=timezone.now)
 	raw = models.CharField(max_length=500)
 	def __str__(self):
 		return self.raw
+
+class LikesFromUser(models.Model):
+    author = models.OneToOneField(User, related_name='lfuauthor')
+    comment = models.ManyToManyField(Comment)
+    def __str__(self):
+        return self.author.name
+
+class PageLog(models.Model):
+    user = models.ForeignKey(User, related_name='ploguser')
+    Job = models.ForeignKey(Job)
+    create = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.user.name + self.Job.name + self.create.date().__str__()
