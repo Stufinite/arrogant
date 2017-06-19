@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from arrogant.models import *
-import json
+import json, pyprind
 
 class Command(BaseCommand):
     help = 'Convenient Way to insert Intern of Yourator json into arrogant'
@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         file = options['json']
         with open(file, 'r') as f:
-            for i in json.load(f):
+            for i in pyprind.prog_bar(json.load(f)):
                 company = self.getOrCreateCompany(i)
                 job = self.getOrCreateJob(company, i)
                 tags = self.getOrCreateTag(i['tags'], job)
