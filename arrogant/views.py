@@ -48,6 +48,9 @@ def jlist(request):
     querySet = querySet[start:start+AMOUNT_NUM]
     return JsonResponse([{'TotalPage':length, 'school':request.GET['school'], 'category':category}] + result, safe=False)
 
+def jcategory(request):
+    return JsonResponse(json.loads(serializers.serialize('json', Category.objects.all(), fields=('name'))), safe=False)
+
 # 顯示特定一門課程的留言評論
 @queryString_required(['id', 'start'])
 def comment(request):

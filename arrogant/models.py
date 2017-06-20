@@ -30,7 +30,7 @@ class Company(models.Model):
 
 	class Meta:
 	    unique_together = ('brand', 'path')
-
+	    
 class Job(models.Model):
 	"""docstring for Job"""
 	company = models.ForeignKey(Company)
