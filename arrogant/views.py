@@ -24,20 +24,26 @@ def recommendJvalue(request):
 
 @queryString_required(['id'])
 def jvalue(request):
-    j = Job.objects.get(id=request.GET['id'])
+    j = Job.objects.prefetch_related('jobtag_set', 'category_set', 'skilltag_set', 'company').get(id=request.GET['id'])
     result = model_to_dict(j)
+    result['company'] = j.company.natural_key()
+    result['JobTag'] = list(j.jobtag_set.all().values())
+    result['skilltag'] = list(j.skilltag_set.all().values())
+    result['Category'] = j.category_set.all().values()[0]
     return JsonResponse(result, safe=False)
 
-@queryString_required(['school', 'start'])
+@queryString_required(['start'])
 def jlist(request):
     start = int(request.GET['start']) - 1
     category = request.GET['category'] if 'category' in request.GET else "行銷/社群經營"
 
-    location = list(filter(lambda x:x['abbreviation']==request.GET['school'], school2loc))[0]['location']
-    querySet = Category.objects.get(name=category).Job.select_related('company').prefetch_related('jobtag_set', 'category_set', 'skilltag_set').filter(company__area=location)
+    # location = list(filter(lambda x:x['abbreviation']==request.GET['school'], school2loc))[0]['location']
+    querySet = Category.objects.get(name=category).Job.select_related('company').prefetch_related('jobtag_set', 'category_set', 'skilltag_set').all()
+    # querySet = Category.objects.get(name=category).Job.select_related('company').prefetch_related('jobtag_set', 'category_set', 'skilltag_set').filter(company__area=location)
     length = len(querySet) // AMOUNT_NUM +1
 
     result = []
+    querySet = querySet[start:start+AMOUNT_NUM]
     for i in querySet:
         tmp = model_to_dict(i)
         tmp['company'] = i.company.natural_key()
@@ -45,8 +51,7 @@ def jlist(request):
         tmp['skilltag'] = [(tag.name, tag.skill_field) for tag in i.skilltag_set.all()]
         result.append(tmp)
 
-    querySet = querySet[start:start+AMOUNT_NUM]
-    return JsonResponse([{'TotalPage':length, 'school':request.GET['school'], 'category':category}] + result, safe=False)
+    return JsonResponse([{'TotalPage':length, 'category':category}] + result, safe=False)
 
 def jcategory(request):
     return JsonResponse(json.loads(serializers.serialize('json', Category.objects.all(), fields=('name'))), safe=False)
