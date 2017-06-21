@@ -5,6 +5,9 @@ arrogant/__init__.py
 arrogant/admin.py
 arrogant/apps.py
 arrogant/models.py
+arrogant/school2location.json
 arrogant/tests.py
 arrogant/urls.py
 arrogant/views.py
+arrogant/migrations/0001_initial.py
+arrogant/migrations/__init__.py

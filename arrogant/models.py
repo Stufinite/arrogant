@@ -37,9 +37,15 @@ class Job(models.Model):
 	name = models.CharField(max_length=20, default='')
 	intern_tf = models.BooleanField(default=False)
 	has_salary_info = models.BooleanField(default=False)
-	salary = models.CharField(max_length=30, default='')
+	salary = models.CharField(max_length=30, default='不詳')
 	path = models.CharField(max_length=40, default='')
 	avatar = models.CharField(max_length=200, default='') # 大頭貼照片
+	feedback_amount = models.PositiveIntegerField(default=0)
+	feedback_freedom = models.FloatField(default=3)
+	feedback_FU = models.FloatField(default=3)
+	feedback_easy = models.FloatField(default=3)
+	feedback_salary = models.FloatField(default=3)
+	feedback_knowledgeable = models.FloatField(default=3)
 	def __str__(self):
 		return self.name
 
@@ -71,6 +77,16 @@ class Comment(models.Model):
 	author = models.ForeignKey(User, related_name='cmtauthor', default=10)
 	create = models.DateTimeField(default=timezone.now)
 	raw = models.CharField(max_length=500)
+	like = models.PositiveSmallIntegerField(default=0)
+	emotion = models.CharField(
+	    max_length=7,
+	    choices=(
+	        ('neutral', 'neutral'),
+	        ('pos', 'pos'),
+	        ('neg', 'neg'),
+	    ),
+	    default='neutral',
+	)
 	def __str__(self):
 		return self.raw
 
