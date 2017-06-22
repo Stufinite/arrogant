@@ -14,9 +14,9 @@ class Company(models.Model):
 	banner = models.CharField(max_length=200, default='') # 大頭貼照片
 	path = models.CharField(max_length=40, default='')
 	area = models.CharField(max_length=10, default='')
-	公司規模 = models.CharField(max_length=5, default='')
+	公司規模 = models.CharField(max_length=5, default='未公開')
 	地址 = models.CharField(max_length=40, default='')
-	資本額 = models.CharField(max_length=10, default='')
+	資本額 = models.CharField(max_length=10, default='未公開')
 	description = models.CharField(max_length=150, default='')
 	def __str__(self):
 		return self.brand
@@ -26,6 +26,11 @@ class Company(models.Model):
 	    	"brand":self.brand,
 	    	"banner":self.banner,
 	    	"area":self.area,
+	    	"path": self.path,
+	    	"公司規模": self.公司規模,
+	    	"地址": self.地址,
+	    	"資本額": self.資本額,
+	    	"description": self.description
 	    }
 
 	class Meta:
@@ -37,7 +42,7 @@ class Job(models.Model):
 	name = models.CharField(max_length=20, default='')
 	intern_tf = models.BooleanField(default=False)
 	has_salary_info = models.BooleanField(default=False)
-	salary = models.CharField(max_length=30, default='不詳')
+	salary = models.CharField(max_length=30, default='未公開')
 	path = models.CharField(max_length=40, default='')
 	avatar = models.CharField(max_length=200, default='') # 大頭貼照片
 	feedback_amount = models.PositiveIntegerField(default=0)

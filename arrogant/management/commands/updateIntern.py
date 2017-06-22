@@ -27,7 +27,7 @@ class Command(BaseCommand):
             banner=i['company']['banner'],
             path=i['company']['path'],
             area=i['company']['area'],
-            公司規模=i['inside'].get('公司規模', ''),
+            公司規模=i['inside'].get('公司規模', '未公開'),
             地址=i['inside']['地址'],
             資本額=i['inside'].get('資本額', "未公開"),
             description=i['inside']['description']
@@ -40,7 +40,7 @@ class Command(BaseCommand):
             name=i['name'],
             intern_tf=i['intern'],
             has_salary_info=i['has_salary_info'],
-            salary=i.get('salary', ""),
+            salary=i.get('salary', "未公開"),
             path=i['path'],
             avatar=i['company']['banner'],
             company=company,
