@@ -7,6 +7,7 @@ from django.views import View
 from django.core import serializers
 import json, datetime
 from infernoWeb.view.inferno import user_verify
+from django.db.models import F
 
 school2loc = json.load(open('arrogant/school2location.json', 'r'))
 AMOUNT_NUM = 10
@@ -26,7 +27,7 @@ def recommendJvalue(request):
 @queryString_required(['id'])
 def jvalue(request):
     j = Job.objects.prefetch_related('jobtag_set', 'category_set', 'skilltag_set', 'company').get(id=request.GET['id'])
-    result = model_to_dict(j)
+    result = model_to_dict(j, exclude='attendee')
     result['company'] = j.company.natural_key()
     result['JobTag'] = list(j.jobtag_set.all().values())
     result['skilltag'] = list(j.skilltag_set.all().values())
@@ -46,7 +47,7 @@ def jlist(request):
     result = []
     querySet = querySet[start:start+AMOUNT_NUM]
     for i in querySet:
-        tmp = model_to_dict(i)
+        tmp = model_to_dict(i, exclude='attendee')
         tmp['company'] = i.company.natural_key()
         tmp['jobtag'] = [tag.name for tag in i.jobtag_set.all()]
         tmp['skilltag'] = [(tag.name, tag.skill_field) for tag in i.skilltag_set.all()]
@@ -77,7 +78,7 @@ def comment(request):
 
 # 建立特定一門課程的留言評論
 @queryString_required(['id'])
-# @user_verify
+@user_verify
 def CreateComment(request):
     id = request.GET['id']
     j = Job.objects.prefetch_related('comment_set').get(id=id)
@@ -88,3 +89,42 @@ def CreateComment(request):
 
 def logPage(request):
     PageLog.objects.create(user=User.objects.get(facebookid=request.POST['id']), Job=Job.objects.get(id=request.GET['id']), create=timezone.now())
+
+@queryString_required(['id'])
+@user_verify
+def like(request):
+    request.GET = request.GET.copy()
+    request.GET['start'] = 1
+    if request.POST:
+        user = User.objects.get(facebookid=request.POST['id'])
+        if request.POST['like'] == '1':
+            target = Comment.objects.filter(id=request.GET['id'])
+            target.update(like=F('like') + int(request.POST['like']))
+            obj, created = LikesFromUser.objects.get_or_create(author=user)
+            obj.comment.add(target[0])
+            return JsonResponse({"like":'success'})
+        elif request.POST['like'] == '-1':
+            Comment.objects.filter(id=request.GET['id']).update(like=F('like') + int(request.POST['like']))
+            LikesFromUser.objects.get(author=user).comment.remove(Comment.objects.get(id=request.GET['id']))
+            return JsonResponse({"like":'success'})
+
+@user_verify
+@queryString_required(['id'])
+def questionnaire(request):
+    id = request.GET['id']
+    j = Job.objects.get(id=id)
+    if request.method == 'POST' and request.POST:
+        if User.objects.get(facebookid=request.POST['id']) in j.attendee.all():
+            return JsonResponse({'alreadySubmit':True})
+        if 'rating' in request.POST:
+            data = json.loads(request.POST['rating'])
+            amount = j.feedback_amount + 1
+            modelDict = {'feedback_amount':amount}
+            modelDict['feedback_freedom'] = (j.feedback_freedom*(amount-1) + (data[0]*3/4 + data[1]/4)) /amount
+            modelDict['feedback_salary'] = (j.feedback_salary*(amount-1) + data[2]) / amount
+            modelDict['feedback_easy'] = (j.feedback_easy*(amount-1) + (data[3]/12 + data[4]/12  + data[7]*9/12 + data[8]/12)) / amount
+            modelDict['feedback_knowledgeable'] = (j.feedback_knowledgeable*(amount-1) + data[6]) / amount
+            modelDict['feedback_FU'] = (j.feedback_FU*(amount-1) + data[5]) / amount
+            Job.objects.update_or_create(id=id, defaults=modelDict)
+            Job.objects.get(id=id).attendee.add(User.objects.get(facebookid=request.POST['id']))
+            return JsonResponse({'submitSuccess':True})
