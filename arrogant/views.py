@@ -5,11 +5,11 @@ from django.forms.models import model_to_dict
 from arrogant.models import *
 from django.views import View
 from django.core import serializers
-import json, datetime
+import json, datetime, os
 from infernoWeb.view.inferno import user_verify
 from django.db.models import F
 
-school2loc = json.load(open('arrogant/school2location.json', 'r'))
+school2loc = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'school2location.json'), 'r'))
 AMOUNT_NUM = 10
 SEARCH_NUM = 5
 
