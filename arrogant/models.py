@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from infernoWeb.models import User
+from django.db.models import Count
+from random import randint
 
 # Create your models here.
 class CompanyManager(models.Manager):
@@ -36,8 +38,22 @@ class Company(models.Model):
     class Meta:
         unique_together = ('brand', 'path')
         
+class Category(models.Model):
+    name = models.CharField(max_length=15)
+    def __str__(self):
+        return self.name
+        
+class JobManager(models.Manager):
+    def random(self):
+        count = self.aggregate(ids=Count('id'))['ids']
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
+
 class Job(models.Model):
     """docstring for Job"""
+    objects = JobManager()
+    
+    category = models.ForeignKey(Category)
     company = models.ForeignKey(Company)
     name = models.CharField(max_length=20, default='')
     intern_tf = models.BooleanField(default=False)
@@ -61,12 +77,6 @@ class JobTag(models.Model):
     def __str__(self):
         return self.name
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=15)
-    Job = models.ManyToManyField(Job)
-    def __str__(self):
-        return self.name
 
 
 class SkillTag(models.Model):

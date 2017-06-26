@@ -13,9 +13,9 @@ class Command(BaseCommand):
         with open(file, 'r') as f:
             for i in pyprind.prog_bar(json.load(f)):
                 company = self.getOrCreateCompany(i)
-                job = self.getOrCreateJob(company, i)
+                category = self.getOrCreateCategory(i['category'])
+                job = self.getOrCreateJob(company, category, i)
                 tags = self.getOrCreateTag(i['tags'], job)
-                category = self.getOrCreateCategory(i['category'], job)
                 SkillTag = self.getOrCreateSkillTag(i['skill_tags'], job)
 
         self.stdout.write(self.style.SUCCESS('insert Json success!!!'))
@@ -35,7 +35,7 @@ class Command(BaseCommand):
         return obj
 
     @staticmethod
-    def getOrCreateJob(company, i):
+    def getOrCreateJob(company, category, i):
         obj, _ = Job.objects.get_or_create(
             name=i['name'],
             intern_tf=i['intern'],
@@ -44,6 +44,7 @@ class Command(BaseCommand):
             path=i['path'],
             avatar=i['company']['banner'],
             company=company,
+            category=category
         )
         return obj
 
@@ -59,11 +60,10 @@ class Command(BaseCommand):
         return result
 
     @staticmethod
-    def getOrCreateCategory(i, job):
+    def getOrCreateCategory(i):
         obj, _ = Category.objects.get_or_create(
             name=i['name'],
         )
-        obj.Job.add(job)
         return obj
 
     @staticmethod

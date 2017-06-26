@@ -10,38 +10,36 @@ from infernoWeb.view.inferno import user_verify
 from django.db.models import F
 
 school2loc = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'school2location.json'), 'r'))
+dept2job = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'dept2job.json'), 'r'))
 AMOUNT_NUM = 10
 SEARCH_NUM = 5
 
-@queryString_required(['school', 'dept', 'degree'])
+@queryString_required(['dept'])
 def recommendJvalue(request):
-    try:
-        j = Job.objects.all()[0]
-        result = model_to_dict(j)
-        result['avatar'] = result['avatar'].url if result['avatar'] else None
-        result['company'] = j.company.company
-        return JsonResponse(result, safe=False)
-    except Exception as e:
-        raise e
+    import random
+    dept = request.GET['dept']
+    for i in dept2job:
+        if i in dept:
+            random.shuffle(dept2job[i])
+            result = model_to_dict(Category.objects.get(name=dept2job[i][0]).job_set.random(), exclude="attendee")
+            return JsonResponse(result, safe=False)
+    # return JsonResponse(result, safe=False)
 
 @queryString_required(['id'])
 def jvalue(request):
-    j = Job.objects.prefetch_related('jobtag_set', 'category_set', 'skilltag_set', 'company').get(id=request.GET['id'])
+    j = Job.objects.prefetch_related('jobtag_set', 'category', 'skilltag_set', 'company').get(id=request.GET['id'])
     result = model_to_dict(j, exclude='attendee')
     result['company'] = j.company.natural_key()
     result['JobTag'] = list(j.jobtag_set.all().values())
     result['skilltag'] = list(j.skilltag_set.all().values())
-    result['Category'] = j.category_set.all().values()[0]
+    result['Category'] = j.category.name
     return JsonResponse(result, safe=False)
 
 @queryString_required(['start'])
 def jlist(request):
     start = int(request.GET['start']) - 1
     category = request.GET['category'] if 'category' in request.GET else "行銷/社群經營"
-
-    # location = list(filter(lambda x:x['abbreviation']==request.GET['school'], school2loc))[0]['location']
-    querySet = Category.objects.get(name=category).Job.select_related('company').prefetch_related('jobtag_set', 'category_set', 'skilltag_set').all()
-    # querySet = Category.objects.get(name=category).Job.select_related('company').prefetch_related('jobtag_set', 'category_set', 'skilltag_set').filter(company__area=location)
+    querySet = Category.objects.get(name=category).job_set.select_related('company').prefetch_related('jobtag_set', 'category', 'skilltag_set').all()
     length = len(querySet) // AMOUNT_NUM +1
 
     result = []
