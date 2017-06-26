@@ -1,6 +1,7 @@
 # Arrogant（傲慢）
 
 ![剛之煉金術師的怠惰](http://att.bbs.duowan.com/forum/201311/04/194746kxk1y8j331lqji8i.jpg)
+
 求職資訊的api
 _`arrogant`_ 是天主教中七原罪的傲慢之罪<br>
 因為系統會幫學生累計他們的實習紀錄等等，當成`胸前的勳章`<br>
@@ -54,114 +55,154 @@ Usage of API (pattern written below is URL pattern)：
 1. _`get/jvalue`_：  
 
   - 職缺id
-  - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=754](http://127.0.0.1:8000/arrogant/get/jvalue?id=754)
+  - example： [http://127.0.0.1:8000/arrogant/get/jvalue?id=38](http://127.0.0.1:8000/arrogant/get/jvalue?id=38)
 
     ```
     {
-      "avatar": "/media/maid_BwdsckP.png",
-      "company": "雲雀國際股份有限公司",
-      "fromWitchWeb": "1111",
-      "id": 754,
-      "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
-      "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
-      "休假制度": "排休, 輪休",
-      "到職日期": "不限",
-      "地區": "台南市東區",
-      "學歷限制": "不拘",
-      "實習時段": "暑期實習、學期實習、學年實習",
-      "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
-      "工作性質": "兼職、企業實習",
-      "工作時間": "日班, 中班, 晚班, 假日班, 輪",
-      "工作經驗": "不拘",
-      "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
-      "科系限制": "不拘",
-      "聯絡人員": "林店長",
-      "職務類別": "餐飲服務人員、餐廚助手",
-      "職缺更新": "2017/4/19",
-      "薪資": "時薪 133至150",
-      "身份類別": "一般求職者／日間就學中",
-      "需求人數": "不限"
+      "JobTag": [
+        {
+          "name": "數位內容",
+          "id": 23
+        }
+      ],
+      "name": "網頁後端工程師 實習生",
+      "salary": "未公開",
+      "feedback_FU": 3.0,
+      "feedback_easy": 3.0,
+      "id": 38,
+      "feedback_salary": 3.0,
+      "feedback_amount": 0,
+      "Category": "全端/後端工程",
+      "avatar": "https://s3-ap-northeast-1.amazonaws.com/yourator/banners/banners/000/000/387/original/6a641d3c178813441e8fb277182c3be6098478a6.jpg?1480993690",
+      "has_salary_info": false,
+      "feedback_freedom": 3.0,
+      "category": 3,
+      "intern_tf": true,
+      "company": {
+        "brand": "2erguy",
+        "description": "你有機會加入一個偉大的團隊",
+        "path": "/companies/2erguy",
+        "banner": "https://s3-ap-northeast-1.amazonaws.com/yourator/banners/banners/000/000/387/original/6a641d3c178813441e8fb277182c3be6098478a6.jpg?1480993690",
+        "公司規模": "4人",
+        "資本額": "未公開",
+        "area": "台北",
+        "地址": "台北市中正區館前路65號11樓"
+      },
+      "path": "/companies/2erguy/jobs/597",
+      "feedback_knowledgeable": 3.0,
+      "skilltag": [
+        {
+          "skill_field": "後端",
+          "name": "Rails",
+          "id": 11
+        },
+        {
+          "skill_field": "後端",
+          "name": "Ruby",
+          "id": 12
+        }
+      ]
     }
     ```
-    
+
 2. _`get/recommendJvalue`_：取得推荐的實習或求職執缺
 
-  - school
   - dept
-  - degree
-  - expample： [http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3](http://127.0.0.1:8000/arrogant/get/recommendJvalue?school=NCHU&dept=U56&degree=3)
+  - expample： [http://127.0.0.1:8000/arrogant/get/recommendJvalue?dept=%E8%B3%87%E8%A8%8A%E5%B7%A5%E7%A8%8B](http://127.0.0.1:8000/arrogant/get/recommendJvalue?dept=%E8%B3%87%E8%A8%8A%E5%B7%A5%E7%A8%8B)
 
     ```
     {
-      "avatar": "/media/maid_BwdsckP.png",
-      "company": "雲雀國際股份有限公司",
-      "fromWitchWeb": "1111",
-      "id": 754,
-      "job": "台南遠百店-涮乃葉 內外場計時人員(實習",
-      "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79117525&agent=internships",
-      "休假制度": "排休, 輪休",
-      "到職日期": "不限",
-      "地區": "台南市東區",
-      "學歷限制": "不拘",
-      "實習時段": "暑期實習、學期實習、學年實習",
-      "工作地點": "台南市東區 前鋒路210號四樓(大遠百",
-      "工作性質": "兼職、企業實習",
-      "工作時間": "日班, 中班, 晚班, 假日班, 輪",
-      "工作經驗": "不拘",
-      "工作說明": "「涮乃葉」為雲雀在台開幕之新品牌歡迎您加",
-      "科系限制": "不拘",
-      "聯絡人員": "林店長",
-      "職務類別": "餐飲服務人員、餐廚助手",
-      "職缺更新": "2017/4/19",
-      "薪資": "時薪 133至150",
-      "身份類別": "一般求職者／日間就學中",
-      "需求人數": "不限"
+      "JobTag": [
+        {
+          "name": "APP",
+          "id": 19
+        }
+      ],
+      "name": "IOS / ReactNative 工程獅",
+      "salary": "未公開",
+      "feedback_FU": 3.0,
+      "feedback_easy": 3.0,
+      "id": 56,
+      "feedback_salary": 3.0,
+      "feedback_amount": 0,
+      "Category": "iOS工程師",
+      "avatar": "https://s3-ap-northeast-1.amazonaws.com/yourator/banners/banners/000/000/289/original/efe46eb2c4ebfdc9dc7bbcf99e38546a53931eaa.png?1476452562",
+      "has_salary_info": false,
+      "feedback_freedom": 3.0,
+      "category": 11,
+      "intern_tf": true,
+      "company": {
+        "brand": "tico 及時通訊",
+        "description": "通訊軟體是最難作的世界級題目，\r\n沒有想清楚前不要來，\r\n來了就當你想清楚了。",
+        "path": "/companies/tico",
+        "banner": "https://s3-ap-northeast-1.amazonaws.com/yourator/banners/banners/000/000/289/original/efe46eb2c4ebfdc9dc7bbcf99e38546a53931eaa.png?1476452562",
+        "公司規模": "3人",
+        "資本額": "未公開",
+        "area": "台北",
+        "地址": "台北市大安區復興南路二段337巷六弄2號"
+      },
+      "path": "/companies/tico/jobs/1166",
+      "feedback_knowledgeable": 3.0,
+      "skilltag": [
+        {
+          "skill_field": "前端",
+          "name": "Redux",
+          "id": 16
+        },
+        {
+          "skill_field": "後端",
+          "name": "Node.js",
+          "id": 8
+        },
+        {
+          "skill_field": "行動",
+          "name": "Objective-C",
+          "id": 14
+        },
+        {
+          "skill_field": "行動",
+          "name": "Swift",
+          "id": 17
+        },
+        {
+          "skill_field": "行動",
+          "name": "ReactNative",
+          "id": 15
+        }
+      ]
     }
     ```
 
 3. _`get/jlist`_：取得實習列表
 
-  - location
   - start
-  - 範例： [http://127.0.0.1:8000/arrogant/get/jlist?location=台中市南區&start=1](http://127.0.0.1:8000/arrogant/get/jlist?location=台中市南區&start=1)
+  - 範例： [http://127.0.0.1:8000/arrogant/get/jlist?start=1](http://127.0.0.1:8000/arrogant/get/jlist?start=1)
 
     ```
     [
       {
-        "fields": {
-          "avatar": "politician.png",
-          "company": 1014,
-          "fromWitchWeb": "1111",
-          "job": "【探魚】Intern實習生 (台中南區)早班/晚班/假日/工讀/兼職Part Time",
-          "url": "http://www.1111.com.tw/job-bank/job-description.asp?eNo=79889630&agent=internships",
-          "休假制度": "排休",
-          "到職日期": "不限",
-          "地區": "台中市南區",
-          "學歷限制": "不拘",
-          "實習時段": "暑期實習、學期實習、學年實習",
-          "工作地點": "台中市南區",
-          "工作性質": "兼職、企業實習",
-          "工作時間": "日班, 中班, 晚班, 假日班",
-          "工作經驗": "不拘",
-          "工作說明": "「最有文藝氣息的烤魚店」新店籌備中，熱烈歡迎熱愛美食，喜歡與人互動、正向思考，對品牌經營管理有熱情、有使命感的夥伴加入我們的團隊，與我們一起提供客戶美好的用餐體驗，成就你的夢想，為自己的職涯加分! ! 1.內場區餐點備製、食材/物料及存貨管理等。 2.外場區現場顧客服務(包括顧客接待/帶位、收銀、點餐/供餐、桌邊服務、收盤清理等)、客區清潔與維護。 3.櫃檯區POS點餐操作、營運現金控管、客戶資料庫管理、行銷實務操作等。",
-          "科系限制": "不拘",
-          "聯絡人員": "營運主管",
-          "職務類別": "餐廚助手、餐飲服務人員、其它料理廚師",
-          "職缺更新": "2017/4/23",
-          "薪資": "面議",
-          "身份類別": "日間就學中／夜間就學中",
-          "需求人數": "不限"
-        },
-        "model": "arrogant.job",
-        "pk": 795
+        "TotalPage": 3,
+        "category": "行銷/社群經營"
+      },
+      {
+        "name": "電子商務 / 商品銷售企劃實習生",
+        "salary": "未公開",
+        "jobtag": [
+          "電商"
+        ],
+    	...    
+      },
+      {
+        "name": "行銷/社群人員 Marketing/Social Media",
+        "salary": "NT$135 - NT$150(時薪)",
+        "jobtag": [
+          "O2O",
+          "市場調查"
+        ],
+        ...
       }
-      ...
-      ...
-      ...
     ]
     ```
-
-
 4. _`get/comment`_：取得該實習的使用者留言
 
   - id
@@ -198,6 +239,27 @@ Usage of API (pattern written below is URL pattern)：
         "pk": 3
       }
     ]
+    ```
+5. _`get/jcategory`_：取得所有實習的類型  
+  - example：[http://127.0.0.1:8000/arrogant/get/jcategory](http://127.0.0.1:8000/arrogant/get/jcategory)
+    ```
+    [
+      {
+        "fields": {
+          "name": "Data Science/ML"
+        },
+        "model": "arrogant.category",
+        "pk": 1
+      },
+      {
+        "fields": {
+          "name": "編輯/內容經營"
+        },
+        "model": "arrogant.category",
+        "pk": 2
+      }
+      ...
+]
     ```
 
 ## Getting Started

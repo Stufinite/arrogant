@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from arrogant.models import *
 from django.views import View
 from django.core import serializers
-import json, datetime, os
+import json, os, itertools, requests
 from infernoWeb.view.inferno import user_verify
 from django.db.models import F
 
@@ -41,7 +41,7 @@ def jvalue(request):
 def jlist(request):
     start = int(request.GET['start']) - 1
     category = request.GET['category'] if 'category' in request.GET else "行銷/社群經營"
-    querySet = Category.objects.get(name=category).job_set.select_related('company').prefetch_related('jobtag_set', 'category', 'skilltag_set').all()
+    querySet = Category.objects.get(name=category).job_set.select_related('company').prefetch_related('jobtag_set', 'skilltag_set').all()
     length = len(querySet) // AMOUNT_NUM +1
 
     result = []
@@ -128,3 +128,25 @@ def questionnaire(request):
             Job.objects.update_or_create(id=id, defaults=modelDict)
             Job.objects.get(id=id).attendee.add(User.objects.get(facebookid=request.POST['id']))
             return JsonResponse({'submitSuccess':True})
+
+@queryString_required(['keyword'])
+def search(request):
+    querySet = Job.objects.filter(name__contains=request.GET['keyword']).select_related('company').prefetch_related('jobtag_set', 'skilltag_set', 'company')[:SEARCH_NUM]
+    if querySet.count() == 0:
+        nlpapi_Expand =  list(itertools.chain(
+            *itertools.chain(*zip(
+                requests.get('http://140.120.13.244:10000/kem/?keyword={}&lang=cht'.format(request.GET['keyword'])).json(), 
+                requests.get('http://140.120.13.244:10000/kcm/?keyword={}&lang=cht'.format(request.GET['keyword'])).json())
+            )
+        ))[::2]
+        nlpapiList = []
+        for i in nlpapi_Expand:
+            querySet = Job.objects.filter(name__contains=i).select_related('company').prefetch_related('jobtag_set', 'skilltag_set', 'company')[:SEARCH_NUM]
+    result = []
+    for i in querySet:
+        tmp = model_to_dict(i, exclude='attendee')
+        tmp['company'] = i.company.natural_key()
+        tmp['jobtag'] = [tag.name for tag in i.jobtag_set.all()]
+        tmp['skilltag'] = [(tag.name, tag.skill_field) for tag in i.skilltag_set.all()]
+        result.append(tmp)
+    return JsonResponse(result, safe=False)
