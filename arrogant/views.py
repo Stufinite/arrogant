@@ -21,9 +21,11 @@ def recommendJvalue(request):
     for i in dept2job:
         if i in dept:
             random.shuffle(dept2job[i])
-            result = model_to_dict(Category.objects.get(name=dept2job[i][0]).job_set.random(), exclude="attendee")
-            return JsonResponse(result, safe=False)
-    # return JsonResponse(result, safe=False)
+            jid = Category.objects.get(name=dept2job[i][0]).job_set.random().id
+            request.GET = request.GET.copy()
+            request.GET['id'] = jid
+            return jvalue(request)
+    return JsonResponse({}, safe=False)
 
 @queryString_required(['id'])
 def jvalue(request):

@@ -4,6 +4,7 @@ setup.py
 arrogant/__init__.py
 arrogant/admin.py
 arrogant/apps.py
+arrogant/dept2job.json
 arrogant/models.py
 arrogant/school2location.json
 arrogant/tests.py
