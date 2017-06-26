@@ -10,5 +10,6 @@ arrogant/school2location.json
 arrogant/tests.py
 arrogant/urls.py
 arrogant/views.py
+arrogant/management/commands/updateIntern.py
 arrogant/migrations/0001_initial.py
 arrogant/migrations/__init__.py
