@@ -68,6 +68,8 @@ class Job(models.Model):
     feedback_salary = models.FloatField(default=3)
     feedback_knowledgeable = models.FloatField(default=3)
     attendee = models.ManyToManyField(User)
+
+    available = models.BooleanField(default=False)
     def __str__(self):
         return self.name
 

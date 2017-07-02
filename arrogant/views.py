@@ -41,7 +41,7 @@ def jvalue(request):
 def jlist(request):
     start = int(request.GET['start']) - 1
     category = request.GET['category'] if 'category' in request.GET else "行銷/社群經營"
-    querySet = Category.objects.get(name=category).job_set.select_related('company').prefetch_related('jobtag_set', 'skilltag_set').all()
+    querySet = Category.objects.get(name=category).job_set.select_related('company').prefetch_related('jobtag_set', 'skilltag_set').filter(available=True)
     length = len(querySet) // AMOUNT_NUM +1
 
     result = []

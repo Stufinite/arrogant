@@ -9,6 +9,7 @@ class Command(BaseCommand):
             parser.add_argument('json', type=str)
 
     def handle(self, *args, **options):
+        Job.objects.all().update(available=False)
         file = options['json']
         with open(file, 'r') as f:
             for i in pyprind.prog_bar(json.load(f)):
@@ -22,58 +23,78 @@ class Command(BaseCommand):
 
     @staticmethod
     def getOrCreateCompany(i):
-        obj, _ = Company.objects.get_or_create(
-            brand=i['company']['brand'],
-            banner=i['company']['banner'],
-            path=i['company']['path'],
-            area=i['company']['area'],
-            公司規模=i['inside'].get('公司規模', '未公開'),
-            地址=i['inside']['地址'],
-            資本額=i['inside'].get('資本額', "未公開"),
-            description=i['inside']['description']
-        )
+        try:
+            obj, created = Company.objects.update_or_create(
+                path=i['company']['path'],
+                defaults={
+                    "brand":i['company']['brand'],
+                    "banner":i['company']['banner'],
+                    "地址":i['inside']['地址'],
+                    "資本額":i['inside'].get('資本額', "未公開"),
+                    "公司規模":i['inside'].get('公司規模', '未公開'),
+                    "area":i['company']['area'],
+                    "description":i['inside']['description'],                    
+                }
+            )
+        except Exception as e:
+            print(i)
+            raise e
+        if created: print(obj)
         return obj
 
     @staticmethod
     def getOrCreateJob(company, category, i):
-        obj, _ = Job.objects.get_or_create(
-            name=i['name'],
-            intern_tf=i['intern'],
-            has_salary_info=i['has_salary_info'],
-            salary=i.get('salary', "未公開"),
-            path=i['path'],
-            avatar=i['company']['banner'],
-            company=company,
-            category=category
-        )
+        try:
+            obj, created = Job.objects.update_or_create(
+                path=i['path'],
+                defaults={
+                    "name":i['name'],
+                    "company":company,
+                    "intern_tf":i['intern'],
+                    "has_salary_info":i['has_salary_info'],
+                    "salary":i.get('salary', "未公開"),
+                    "avatar":i['company']['banner'],
+                    "category":category,
+                    "available":True
+                }
+            )
+        except Exception as e:
+            print(i['name'], i['path'])
+            raise e
+        if created: print(obj)
         return obj
 
     @staticmethod
     def getOrCreateTag(tags, job):
         result = []
         for i in tags:
-            obj, _ = JobTag.objects.get_or_create(
+            obj, created = JobTag.objects.get_or_create(
                 name=i['name'],
             )
+            if created: print(obj)            
             obj.Job.add(job)
             result.append(obj)
         return result
 
     @staticmethod
     def getOrCreateCategory(i):
-        obj, _ = Category.objects.get_or_create(
+        obj, created = Category.objects.get_or_create(
             name=i['name'],
         )
+        if created: print(obj)
         return obj
 
     @staticmethod
     def getOrCreateSkillTag(skills, job):
         result = []
         for i in skills:
-            obj, _ = SkillTag.objects.get_or_create(
+            obj, created = SkillTag.objects.get_or_create(
                 name=i['name'],
-                skill_field=i['skill_field'],
+                defaults={
+                    "skill_field":i['skill_field'],
+                }
             )
+            if created: print(obj)            
             obj.Job.add(job)
             result.append(obj)
         return result

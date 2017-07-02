@@ -306,7 +306,7 @@ These instructions will get you a copy of the project up and running on your loc
     ]
     ```
 
-3. `python manage.py runserver`：即可進入頁面測試 `arrogant` 是否安裝成功。
+3. `python manage.py updateIntern yourator職缺.json`：把準備好的json插入資料庫中。
 
 ### Break down into end to end tests
 
