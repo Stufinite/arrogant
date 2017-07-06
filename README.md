@@ -306,7 +306,7 @@ These instructions will get you a copy of the project up and running on your loc
     ]
     ```
 
-3. `python manage.py updateIntern yourator職缺.json`：把準備好的json插入資料庫中。
+3. `python manage.py run`：會自動執行yourator的爬蟲和存入資料庫中，並且sleep HR24然後再繼續執行。
 
 ### Break down into end to end tests
 

@@ -12,7 +12,7 @@ from django.db.models import F
 school2loc = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'school2location.json'), 'r'))
 dept2job = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'dept2job.json'), 'r'))
 AMOUNT_NUM = 10
-SEARCH_NUM = 5
+SEARCH_NUM = 20
 
 @queryString_required(['dept'])
 def recommendJvalue(request):
