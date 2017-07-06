@@ -55,7 +55,7 @@ class Job(models.Model):
     
     category = models.ForeignKey(Category)
     company = models.ForeignKey(Company)
-    name = models.CharField(max_length=20, default='')
+    name = models.CharField(max_length=40, default='')
     intern_tf = models.BooleanField(default=False)
     has_salary_info = models.BooleanField(default=False)
     salary = models.CharField(max_length=30, default='未公開')
