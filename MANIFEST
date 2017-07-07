@@ -15,4 +15,5 @@ arrogant/management/commands/run.py
 arrogant/management/commands/updateIntern.py
 arrogant/migrations/0001_initial.py
 arrogant/migrations/0002_job_available.py
+arrogant/migrations/0003_auto_20170707_1109.py
 arrogant/migrations/__init__.py
