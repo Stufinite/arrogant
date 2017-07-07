@@ -12,14 +12,14 @@ class CompanyManager(models.Manager):
 class Company(models.Model):
     objects = CompanyManager()
 
-    brand = models.CharField(max_length=40, default='')
+    brand = models.CharField(max_length=50, default='')
     banner = models.CharField(max_length=200, default='') # 大頭貼照片
     path = models.CharField(max_length=40, default='')
     area = models.CharField(max_length=10, default='')
     公司規模 = models.CharField(max_length=5, default='未公開')
-    地址 = models.CharField(max_length=50, default='')
+    地址 = models.CharField(max_length=80, default='')
     資本額 = models.CharField(max_length=10, default='未公開')
-    description = models.CharField(max_length=200, default='')
+    description = models.CharField(max_length=250, default='')
     def __str__(self):
         return self.brand
 
@@ -55,10 +55,10 @@ class Job(models.Model):
     
     category = models.ForeignKey(Category)
     company = models.ForeignKey(Company)
-    name = models.CharField(max_length=50, default='')
+    name = models.CharField(max_length=55, default='')
     intern_tf = models.BooleanField(default=False)
     has_salary_info = models.BooleanField(default=False)
-    salary = models.CharField(max_length=30, default='未公開')
+    salary = models.CharField(max_length=50, default='未公開')
     path = models.CharField(max_length=40, default='')
     avatar = models.CharField(max_length=200, default='') # 大頭貼照片
     feedback_amount = models.PositiveIntegerField(default=0)
