@@ -8,5 +8,5 @@ class Command(BaseCommand):
             call_command('jobCrawler')
             call_command('updateIntern', 'intern.json')
             call_command('updateIntern', 'job.json')
-            time.sleep(86400)
+            time.sleep(10800)
         self.stdout.write(self.style.SUCCESS('daily update Intern and Job Info success!!!'))
